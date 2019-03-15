@@ -1,0 +1,55 @@
+---
+- name: Update cache
+  apt:
+    update_cache: true
+
+- name: Install dependencies
+  apt:
+    name:
+     - curl
+     - openssh-server
+     - ca-certificates
+   state: present
+
+- name: Install PostFix
+  apt:
+    name: postfix
+    state: present
+
+- name: Make directories
+  file:
+    path: /etc/gitlab
+    state: directory
+    mode: 0775
+
+- name: Set proper gitlab.rb file
+  template:
+    src: config/gitlab.j2
+    dest: /etc/gitlab/gitlab.rb
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Install Gitlab
+  apt:
+    deb: "https://packages.gitlab.com/gitlab/gitlab-ce/packages/ubuntu/trusty/gitlab-ce_{{ version }}-ce.0_amd64.deb/download.deb"
+
+- name: Run Gitlab for the first time
+  command: >
+    gitlab-ctl reconfigure
+    creates=/var/opt/gitlab/bootstrapped
+  environment:
+    EXTERNAL_URL: "{{ ext_url }}"
+  failed_when: false
+  ignore_errors: yes
+
+- name: Set proper gitlab.rb file once again
+  template:
+    src: config/gitlab.j2
+    dest: /etc/gitlab/gitlab.rb
+    owner: root
+    group: root
+    mode: 0600
+  notify:
+    - Reconfigure Gitlab
+

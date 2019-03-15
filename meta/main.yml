@@ -1,0 +1,21 @@
+galaxy_info:
+  author: syzmekk
+  description: Gitlab CE installation
+  company: "DXC Technology"
+  license: "license (MIT)"
+
+  min_ansible_version: 2.4
+
+  platforms:
+    - name: Ubuntu
+      versions:
+      - all
+
+  galaxy_tags: 
+    - gitlab
+    - gitlab-ce
+    - git
+    - ci
+    - repository
+    - dev
+    - development

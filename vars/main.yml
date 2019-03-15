@@ -1,0 +1,4 @@
+---
+version: 11.8.2
+ext_url: "http://gitlab.example.com"
+url: example.com

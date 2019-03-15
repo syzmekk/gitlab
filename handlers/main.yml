@@ -1,0 +1,5 @@
+---
+- name: Reconfigure Gitlab
+  command: gitlab-ctl reconfigure
+  environment:
+    EXTERNAL_URL: "{{ ext_url }}"
